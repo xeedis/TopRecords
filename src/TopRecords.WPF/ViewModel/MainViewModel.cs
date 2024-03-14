@@ -1,9 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using Newtonsoft.Json;
 using TopRecords.WPF.Client;
 using TopRecords.WPF.Model;
 
@@ -12,7 +10,7 @@ namespace TopRecords.WPF.ViewModel;
 public class MainViewModel : INotifyPropertyChanged
 {
     private readonly ITopRecordsClient _topRecordsClient;
-    public ObservableCollection<CD> CDs { get; set; }
+    public ObservableCollection<CD> CDs { get; }
 
     public MainViewModel(ITopRecordsClient topRecordsClient)
     {
@@ -22,12 +20,20 @@ public class MainViewModel : INotifyPropertyChanged
 
     public async Task FetchData()
     {
-        var catalog = await _topRecordsClient.GetCdCatalog();
-        CDs.Clear();
-        foreach (var cd in catalog.CDs)
+        try
         {
-            CDs.Add(cd);
+            var catalog = await _topRecordsClient.GetCdCatalog();
+            CDs.Clear();
+            foreach (var cd in catalog.CDs)
+            {
+                CDs.Add(cd);
+            }
         }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.Message);
+        }
+        
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

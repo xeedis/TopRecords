@@ -1,9 +1,6 @@
-using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
-using Newtonsoft.Json;
 using TopRecords.WPF.Client;
-using TopRecords.WPF.Model;
 using TopRecords.WPF.ViewModel;
 
 namespace TopRecords.WPF.View;
