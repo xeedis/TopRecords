@@ -1,6 +1,7 @@
 namespace TopRecords.Api.Helpers;
 
-public class AppOptions
+public sealed class AppOptions
 {
-    public string Url { get; set; }
+    public const string SectionName = "app";
+    public string Url { get; init; } = default!;
 }

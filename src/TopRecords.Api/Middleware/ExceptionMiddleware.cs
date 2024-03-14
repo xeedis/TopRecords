@@ -11,6 +11,7 @@ public class ExceptionMiddleware : IMiddleware
     {
         _logger = logger;
     }
+    
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         try
@@ -24,7 +25,7 @@ public class ExceptionMiddleware : IMiddleware
         }
     }
 
-    private async Task HandleExceptionAsync(Exception exception, HttpContext context)
+    private static async Task HandleExceptionAsync(Exception exception, HttpContext context)
     {
         var (statusCode, error) = exception switch
         {

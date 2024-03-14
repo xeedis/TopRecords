@@ -3,7 +3,4 @@ using TopRecords.Api.DTO;
 
 namespace TopRecords.Api.Queries;
 
-public class GetCatalog : IQuery<CatalogDto>
-{
-    
-}
+public sealed record GetCatalogQuery : IQuery<CatalogDto>;

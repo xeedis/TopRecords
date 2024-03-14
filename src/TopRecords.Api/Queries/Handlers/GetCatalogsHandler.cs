@@ -1,36 +1,20 @@
-using System.Xml;
-using System.Xml.Serialization;
-using Microsoft.Extensions.Options;
 using TopRecords.Api.Abstractions;
+using TopRecords.Api.Clients;
 using TopRecords.Api.DTO;
-using TopRecords.Api.Helpers;
 
 namespace TopRecords.Api.Queries.Handlers;
 
-public class GetCatalogsHandler : IQueryHandler<GetCatalog, CatalogDto>
+internal sealed class GetCatalogsHandler : IQueryHandler<GetCatalogQuery, CatalogDto>
 {
-    private readonly IHttpClientFactory _httpClient;
-    private readonly string _url;
+    private readonly IW3SchoolClient _w3SchoolClient;
     
-    public GetCatalogsHandler(IHttpClientFactory httpClient, IOptionsSnapshot<AppOptions> options)
+    public GetCatalogsHandler(IW3SchoolClient w3SchoolClient)
     {
-        _httpClient = httpClient;
-        _url = options.Value.Url;
+        _w3SchoolClient = w3SchoolClient;
     }
-    public async Task<CatalogDto> HandleAsync(GetCatalog query)
+    
+    public async Task<CatalogDto> HandleAsync(GetCatalogQuery query, CancellationToken cancellationToken)
     {
-        var client = _httpClient.CreateClient("CatalogClient");
-        CatalogDto catalogs;
-        
-        var response = await client.GetAsync(_url);
-        var xmlString = await response.Content.ReadAsStringAsync();
-        
-        var serializer = new XmlSerializer(typeof(CatalogDto));
-        using(var reader = new StringReader(xmlString))
-        {
-            catalogs = (CatalogDto)serializer.Deserialize(reader);
-        }
-
-        return catalogs;
+        return await _w3SchoolClient.GetCdCatalog(cancellationToken);
     }
 }

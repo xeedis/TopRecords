@@ -5,15 +5,20 @@ namespace TopRecords.Api.DTO;
 public class CdDto
 {
     [XmlElement("TITLE")]
-    public string Title { get; set; }
+    public string Title { get; init; }
+    
     [XmlElement("ARTIST")]
-    public string Artist { get; set; }
+    public string Artist { get; init; }
+    
     [XmlElement("COUNTRY")]
-    public string Country { get; set; }
+    public string Country { get; init; }
+    
     [XmlElement("COMPANY")]
-    public string Company { get; set; }
+    public string Company { get; init; }
+    
     [XmlElement("PRICE")]
-    public decimal Price { get; set; }
+    public decimal Price { get; init; }
+    
     [XmlElement("YEAR")]
-    public string Year { get; set; }
+    public string Year { get; init; }
 }

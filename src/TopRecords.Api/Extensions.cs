@@ -1,5 +1,6 @@
 using Microsoft.OpenApi.Models;
 using TopRecords.Api.Abstractions;
+using TopRecords.Api.Clients;
 using TopRecords.Api.DTO;
 using TopRecords.Api.Helpers;
 using TopRecords.Api.Middleware;
@@ -10,16 +11,15 @@ namespace TopRecords.Api;
 
 public static class Extensions
 {
-    private const string SectionName = "app";
     
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var section = configuration.GetSection(SectionName);
-        services.Configure<AppOptions>(section);
+        services.Configure<AppOptions>(configuration.GetSection(AppOptions.SectionName));
 
         services.AddSingleton<ExceptionMiddleware>();
-        services.AddHttpClient("CatalogClient");
-        services.AddScoped<IQueryHandler<GetCatalog, CatalogDto>, GetCatalogsHandler>();
+        services.AddHttpClient(W3SchoolEndpoints.ClientName);
+        services.AddScoped<IQueryHandler<GetCatalogQuery, CatalogDto>, GetCatalogsHandler>();
+        services.AddHttpClient<IW3SchoolClient, W3SchoolClient>();
         services.AddSwaggerGen(swagger =>
         {
             swagger.SwaggerDoc("v1", new OpenApiInfo

@@ -1,6 +1,3 @@
 namespace TopRecords.Api.Abstractions;
 
-public interface IQuery<TResult>
-{
-    
-}
+public interface IQuery<TResult>;
